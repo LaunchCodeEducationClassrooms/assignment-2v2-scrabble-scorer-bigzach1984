@@ -12,9 +12,6 @@ const oldPointStructure = {
   10: ['Q', 'Z']
 };
 
-let newPointStructure = {};
-transform(oldPointStructure);
-
 function oldScrabbleScorer(word) {
 	word = word.toUpperCase();
   let count = 0;
@@ -24,7 +21,7 @@ function oldScrabbleScorer(word) {
 	  for (const pointValue in oldPointStructure) {
  
 		 if (oldPointStructure[pointValue].includes(word[i])) {
-      count += Number(pointValue);
+       count += Number(pointValue);
 		 }
  
 	  }
@@ -44,33 +41,58 @@ function initialPrompt() {
   //return wordToScore;
 };
 
-let simpleScore = word => {
-  let score = word.length;
-  return score;
+const simpleScoreStructure = {
+  1: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'X', 'Y', 'Z']
 };
 
-let vowelBonusScore = word => {
-  word = word.toLowerCase();
+let simpleScore = word => {
+  word = word.toUpperCase();
   let count = 0;
+
   for (let i = 0; i < word.length; i++) {
-    let letter = word[i];
-    if (letter === 'a' || letter === 'e' || letter === 'i' || letter === 'o' || letter === 'u') {
-      count += 3;
-    } else {
-      count += 1;
+    for (const pointValue in simpleScoreStructure) {
+      if (simpleScoreStructure[pointValue].includes(word[i])) {
+        count += Number(pointValue);
+      }
     }
   }
   return count;
 };
 
-let scrabbleScore = (word, newPointStructure) => {
-  word = word.toLowerCase().split('');
+const vowelPointStructure = {
+  1: ['B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z'],
+  3: ['A', 'E', 'I', 'O', 'U']
+};
+
+let vowelBonusScore = word => {
+  word = word.toUpperCase();
   let count = 0;
+  
   for (let i = 0; i < word.length; i++) {
-    let letter = word[i];
-    count += newPointStructure[letter];
+    for (const pointValue in vowelPointStructure) {
+      if (vowelPointStructure[pointValue].includes(word[i])) {
+        count += Number(pointValue);
+      } 
+    }
   }
   return count;
+};
+
+let scrabbleScore = word => {
+  word = word.toUpperCase();
+  let letterPoints = "";
+  let count = 0;
+
+  for (let i = 0; i < word.length; i++) {
+    for (const pointValue in oldPointStructure) {
+      if (oldPointStructure[pointValue].includes(word[i])) {
+        count += Number(pointValue);
+        letterPoints += `Points for '${word [i]}': ${pointValue}\n`
+      }
+    }
+  }
+  return count;
+  return letterPoints;
 };
 
 const scoringAlgorithms = [
@@ -87,7 +109,7 @@ const scoringAlgorithms = [
   {
     name: 'Scrabble',
     description: 'The traditional scoring algorithm',
-    scoringFunction: scrabbleScore
+    scoringFunction: oldScrabbleScorer
   }
 ];
 
@@ -103,20 +125,14 @@ function scorerPrompt() {
   }
   if (typeOfScorer === '2') {
     console.log("Algorithm Name:", scoringAlgorithms[2].name);
-    console.log(`Score for '${wordToScore}':`, scrabbleScore(wordToScore));
+    console.log(`Score for '${wordToScore}':`, oldScrabbleScorer(wordToScore));
   }
   
 }
 
-function transform(oldPointStructure) {
-  for (score in oldPointStructure) {
-    for (let i = 0; i < oldPointStructure[score].length; i++) {
-      let newScore = oldPointStructure[score][i];
-      newPointStructure[newScore.toLowerCase()] = Number(score);
-    }
-  }
-  //return newPointStructure;
-};
+function transform() {};
+
+let newPointStructure;
 
 function runProgram() {
    initialPrompt();
