@@ -64,21 +64,14 @@ let vowelBonusScore = word => {
   return count;
 };
 
-let scrabbleScore = word => {
-  word = word.toUpperCase();
-  let letterPoints = "";
+let scrabbleScore = (word, newPointStructure) => {
   let count = 0;
-
   for (let i = 0; i < word.length; i++) {
-    for (const pointValue in oldPointStructure) {
-      if (oldPointStructure[pointValue].includes(word[i])) {
-        count += Number(pointValue);
-        letterPoints += `Points for '${word [i]}': ${pointValue}\n`
-      }
-    }
+    let letters = word[i];
+    letters = letters.toLowerCase();
+    count += newPointStructure[letters];
   }
   return count;
-  return letterPoints;
 };
 
 const scoringAlgorithms = [
@@ -116,9 +109,21 @@ function scorerPrompt() {
   
 }
 
-function transform() {};
+function transform(obj) {
+  let count = {};
 
-let newPointStructure;
+  for (let item in oldPointStructure) {
+    let letters = oldPointStructure[item];
+
+    for (let i = 0; i < letters.length; i++) {
+      count[letters[i].toLowerCase = Number(item)];
+    }
+  }
+  return count;
+};
+
+let newPointStructure = transform(oldPointStructure);
+newPointStructure[' '] = 0;
 
 function runProgram() {
    initialPrompt();
