@@ -46,17 +46,7 @@ const simpleScoreStructure = {
 };
 
 let simpleScore = word => {
-  word = word.toUpperCase();
-  let count = 0;
-
-  for (let i = 0; i < word.length; i++) {
-    for (const pointValue in simpleScoreStructure) {
-      if (simpleScoreStructure[pointValue].includes(word[i])) {
-        count += Number(pointValue);
-      }
-    }
-  }
-  return count;
+  return word.length;
 };
 
 const vowelPointStructure = {
@@ -65,14 +55,15 @@ const vowelPointStructure = {
 };
 
 let vowelBonusScore = word => {
-  word = word.toUpperCase();
+  word = word.toLowerCase().split('');
   let count = 0;
   
   for (let i = 0; i < word.length; i++) {
-    for (const pointValue in vowelPointStructure) {
-      if (vowelPointStructure[pointValue].includes(word[i])) {
-        count += Number(pointValue);
-      } 
+    letter = word[i];
+    if (letter === 'a' || letter === 'e' || letter === 'i' ||letter === 'o' || letter === 'u') {
+      count += 3;
+    } else {
+      count += 1;
     }
   }
   return count;
