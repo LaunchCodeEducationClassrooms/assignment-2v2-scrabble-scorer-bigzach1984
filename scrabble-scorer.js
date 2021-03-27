@@ -14,7 +14,6 @@ const oldPointStructure = {
 
 function oldScrabbleScorer(word) {
 	word = word.toUpperCase();
-	let letterPoints = "";
   let count = 0;
  
 	for (let i = 0; i < word.length; i++) {
@@ -23,13 +22,11 @@ function oldScrabbleScorer(word) {
  
 		 if (oldPointStructure[pointValue].includes(word[i])) {
       count += Number(pointValue);
-			letterPoints += `Points for '${word[i]}': ${pointValue}\n`
 		 }
  
 	  }
 	}
   return count;
-	return letterPoints;
  };
 
 // your job is to finish writing these functions and variables that we've named //
@@ -60,36 +57,30 @@ const vowelPointStructure = {
 
 let vowelBonusScore = word => {
   word = word.toUpperCase();
-  let letterPoints = "";
   let count = 0;
   
   for (let i = 0; i < word.length; i++) {
     for (const pointValue in vowelPointStructure) {
       if (vowelPointStructure[pointValue].includes(word[i])) {
         count += Number(pointValue);
-        letterPoints += `Points for '${word[i]}': ${pointValue}\n`
       } 
     }
   }
   return count;
-  return letterPoints;
 };
 
 let scrabbleScore = word => {
   word = word.toUpperCase();
-  let letterPoints = "";
   let count = 0;
 
   for (let i = 0; i < word.length; i++) {
     for (const pointValue in newPointStructure) {
       if (newPointStructure[pointValue].includes(word[i])) {
         count += Number(pointValue);
-        letterPoints += `Points for '${word [i]}': ${pointValue}\n`
       }
     }
   }
   return count;
-  return letterPoints;
 };
 
 const scoringAlgorithms = [
