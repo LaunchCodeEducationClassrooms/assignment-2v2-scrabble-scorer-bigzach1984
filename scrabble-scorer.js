@@ -50,35 +50,26 @@ let simpleScore = word => {
   return score;
 };
 
-const vowelPointStructure = {
-  1: ['B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z'],
-  3: ['A', 'E', 'I', 'O', 'U']
-};
-
 let vowelBonusScore = word => {
-  word = word.toUpperCase();
+  word = word.toLowerCase();
   let count = 0;
-  
   for (let i = 0; i < word.length; i++) {
-    for (const pointValue in vowelPointStructure) {
-      if (vowelPointStructure[pointValue].includes(word[i])) {
-        count += Number(pointValue);
-      } 
+    let letter = word[i];
+    if (letter === 'a' || letter === 'e' || letter === 'i' || letter === 'o' || letter === 'u') {
+      count += 3;
+    } else {
+      count += 1;
     }
   }
   return count;
 };
 
 let scrabbleScore = word => {
-  word = word.toUpperCase();
+  word = word.toLowerCase().split('');
   let count = 0;
-
   for (let i = 0; i < word.length; i++) {
-    for (const pointValue in newPointStructure) {
-      if (newPointStructure[pointValue].includes(word[i])) {
-        count += Number(pointValue);
-      }
-    }
+    let letter = word[i];
+    count += newPointStructure[letter];
   }
   return count;
 };
