@@ -41,10 +41,6 @@ function initialPrompt() {
   //return wordToScore;
 };
 
-const simpleScoreStructure = {
-  1: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'X', 'Y', 'Z']
-};
-
 let simpleScore = word => {
   return word.length;
 };
@@ -64,12 +60,12 @@ let vowelBonusScore = word => {
   return count;
 };
 
-let scrabbleScore = (word, newPointStructure) => {
+let scrabbleScore = function(word){
+  word = word.toLowerCase();
   let count = 0;
-  for (let i = 0; i < word.length; i++) {
-    let letters = word[i];
-    letters = letters.toLowerCase();
-    count += newPointStructure[letters];
+
+  for (i = 0; i < word.length; i++) {
+    count += newPointStructure[word[i]];
   }
   return count;
 };
@@ -89,7 +85,7 @@ let bonusVowelsObject = {
 let scrabbleObject = {
   name: 'Scrabble',
   description: 'The traditional scoring algorithm',
-  scoringFunction: oldScrabbleScorer
+  scoringFunction: scrabbleScore
 }
 
 const scoringAlgorithms = [simpleScoreObject, bonusVowelsObject, scrabbleObject];
@@ -99,33 +95,31 @@ function scorerPrompt() {
   if (typeOfScorer === '0') {
     console.log("Algorithm Name:", scoringAlgorithms[0].name);
     console.log(`Score for '${wordToScore}':`, simpleScore(wordToScore));
-  }
-  if (typeOfScorer === '1') {
+  } else if (typeOfScorer === '1') {
     console.log("Algorithm Name:", scoringAlgorithms[1].name);
     console.log(`Score for '${wordToScore}':`, vowelBonusScore(wordToScore));
-  }
-  if (typeOfScorer === '2') {
+  } else if (typeOfScorer === '2') {
     console.log("Algorithm Name:", scoringAlgorithms[2].name);
-    console.log(`Score for '${wordToScore}':`, oldScrabbleScorer(wordToScore));
+    console.log(`Score for '${wordToScore}':`, scrabbleScore(wordToScore));
+  } else {
+    console.log('\nPlease enter a valid number\n')
   }
-  
 }
 
-function transform(obj) {
-  let count = {};
+function transform(object) {
 
-  for (let item in oldPointStructure) {
-    let letters = oldPointStructure[item];
-
-    for (let i = 0; i < letters.length; i++) {
-      count[letters[i].toLowerCase = Number(item)];
+  let countObject = {};  
+  for (item in object){
+    for(i = 0; i < object[item].length; i++) {
+     let key = object[item][i];
+     key = key.toLowerCase();
+     countObject[`${key}`] = Number(item);
     }
   }
-  return count;
+  return countObject;
 };
 
 let newPointStructure = transform(oldPointStructure);
-newPointStructure[' '] = 0;
 
 function runProgram() {
    initialPrompt();
