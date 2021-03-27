@@ -49,11 +49,6 @@ let simpleScore = word => {
   return word.length;
 };
 
-const vowelPointStructure = {
-  1: ['B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z'],
-  3: ['A', 'E', 'I', 'O', 'U']
-};
-
 let vowelBonusScore = word => {
   word = word.toLowerCase().split('');
   let count = 0;
